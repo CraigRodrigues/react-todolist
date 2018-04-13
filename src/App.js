@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import './App.css';
 
 import Logo from './Logo';
 import Todos from './Todos';
-import Create from './Create';
+import CreateButton from './CreateButton';
+import NewTodo from './NewTodo';
 
 class App extends Component {
     constructor() {
@@ -58,8 +60,11 @@ class App extends Component {
         return (
             <div id="App">
                 <Logo />
-                <Todos todos={this.state.todos} toggleComplete={this.toggleComplete}/>
-                <Create />
+
+                <Route exact path='/' render={(props) => <Todos {...props} todos={this.state.todos} toggleComplete={this.toggleComplete} />} />
+                <Route path='/new' component={NewTodo} />
+
+                <Link to='/new'><CreateButton /></Link>
             </div>
         );
     }
