@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import Logo from './Logo';
@@ -32,9 +31,18 @@ class App extends Component {
                 }
             ]
         };
+
+        this.toggleComplete = this.toggleComplete.bind(this);
     }
 
-    createTodo() {
+    toggleComplete(id) {
+        let selectedTodo = this.state.todos.find((todo) => todo.id === id);
+
+        selectedTodo.completed = !selectedTodo.completed;
+        this.setState({ todos: this.state.todos });
+    }
+
+    createTodo(title, notes) {
 
     }
 
@@ -50,7 +58,7 @@ class App extends Component {
         return (
             <div id="App">
                 <Logo />
-                <Todos todos={this.state.todos} />
+                <Todos todos={this.state.todos} toggleComplete={this.toggleComplete}/>
                 <Create />
             </div>
         );
