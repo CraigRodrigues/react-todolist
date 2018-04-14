@@ -32,6 +32,12 @@ class App extends Component {
                 {
                     id: '4',
                     complete: false,
+                    title: 'Click the ❌ to delete this todo',
+                    notes: ''
+                },
+                {
+                    id: '5',
+                    complete: false,
                     title: 'This icon shows that this todo has notes -->',
                     notes: 'You found the notes! Good job. 👍'
                 }
