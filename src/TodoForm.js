@@ -13,8 +13,7 @@ export default class TodoForm extends React.Component {
             notes: ''
         };
 
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleNotesChange = this.handleNotesChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleAction = this.handleAction.bind(this);
     }
 
@@ -28,12 +27,8 @@ export default class TodoForm extends React.Component {
         return null;
     }
 
-    handleTitleChange(event) {
-        this.setState({ title: event.target.value });
-    }
-
-    handleNotesChange(event) {
-        this.setState({ notes: event.target.value });
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     handleAction() {
@@ -54,7 +49,7 @@ export default class TodoForm extends React.Component {
                         type="text"
                         name="title"
                         value={title}
-                        onChange={this.handleTitleChange}
+                        onChange={this.handleChange}
                     />
                 </div>
                 <div>
@@ -63,7 +58,7 @@ export default class TodoForm extends React.Component {
                         name="notes"
                         placeholder="Enter notes"
                         value={notes}
-                        onChange={this.handleNotesChange}
+                        onChange={this.handleChange}
                     />
                 </div>
                 <button onClick={this.handleAction}>{action}</button>
