@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import './App.css';
 
 import Logo from './Logo';
 import Todos from './Todos';
