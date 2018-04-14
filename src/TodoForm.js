@@ -1,5 +1,4 @@
 // Takes in the list of todos, a callback and action word
-
 import React from 'react';
 import shortid from 'shortid';
 
