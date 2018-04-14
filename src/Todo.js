@@ -10,6 +10,7 @@ const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
             >
                 {todo.title}
             </span>
+            { todo.notes && <span role="img" aria-label="notes">📝</span> }
             <span role="img" aria-label="delete" onClick={() => deleteTodo(todo.id)}>
                 ❌
             </span>
