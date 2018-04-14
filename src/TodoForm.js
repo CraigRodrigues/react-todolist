@@ -46,7 +46,8 @@ export default class TodoForm extends React.Component {
         let { history, action } = this.props;
 
         return (
-            <div className="new-todo">
+            <div className="todo-form">
+                <h2>{action}</h2>
                 <div>
                     <label htmlFor="title">Title</label>
                     <input

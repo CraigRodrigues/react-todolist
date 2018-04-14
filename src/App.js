@@ -32,7 +32,7 @@ class App extends Component {
                 {
                     id: '4',
                     complete: false,
-                    title: 'Click the ❌ to delete this todo',
+                    title: 'Click any ❌ emoji to delete a todo',
                     notes: ''
                 },
                 {
@@ -102,7 +102,7 @@ class App extends Component {
                             {...props}
                             todos={this.state.todos}
                             callback={this.createTodo}
-                            action="Create"
+                            action="Create New Todo"
                         />
                     )}
                 />
@@ -113,7 +113,7 @@ class App extends Component {
                             {...props}
                             todos={this.state.todos}
                             callback={this.editTodo}
-                            action="Edit"
+                            action="Edit Todo"
                         />
                     )}
                 />
