@@ -2,8 +2,6 @@ import React from 'react';
 
 const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
     const handleClick = (event) => {
-        event.stopPropagation();
-
         if (!todo.complete) {
             return history.push(`/edit/${todo.id}`);
         }
