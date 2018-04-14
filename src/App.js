@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import clonedeep from 'lodash.clonedeep';
 
 import Logo from './Logo';
 import Todos from './Todos';
@@ -58,14 +59,14 @@ class App extends Component {
     }
 
     createTodo(todo) {
-        let todosCopy = this.state.todos.slice();
+        let todosCopy = clonedeep(this.state.todos);
 
         todosCopy.push(todo);
         this.setState({ todos: todosCopy });
     }
 
     editTodo(todo) {
-        let todosCopy = this.state.todos.slice();
+        let todosCopy = clonedeep(this.state.todos);
         let index = todosCopy.findIndex((x) => x.id === todo.id);
 
         todosCopy[index] = todo;
