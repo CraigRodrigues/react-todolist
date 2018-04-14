@@ -4,23 +4,28 @@ const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
     const handleClick = (event) => {
         event.stopPropagation();
 
-        if (!todo.completed) {
+        if (!todo.complete) {
             return history.push(`/edit/${todo.id}`);
         }
 
         return false;
-    }
+    };
 
     return (
         <li>
-            <input type="checkbox" onChange={() => toggleComplete(todo.id)} />
-            <span
-                className={todo.completed ? 'completed' : ''}
-                onClick={handleClick}
-            >
+            <input
+                type="checkbox"
+                checked={todo.complete}
+                onChange={() => toggleComplete(todo.id)}
+            />
+            <span className={todo.complete ? 'complete' : ''} onClick={handleClick}>
                 {todo.title}
             </span>
-            { todo.notes && <span role="img" aria-label="notes">📝</span> }
+            {todo.notes && (
+                <span role="img" aria-label="notes">
+                    📝
+                </span>
+            )}
             <span role="img" aria-label="delete" onClick={() => deleteTodo(todo.id)}>
                 ❌
             </span>

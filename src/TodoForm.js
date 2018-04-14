@@ -8,7 +8,7 @@ export default class TodoForm extends React.Component {
 
         this.state = {
             id: shortid.generate(),
-            completed: false,
+            complete: false,
             title: '',
             notes: ''
         };

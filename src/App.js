@@ -13,21 +13,27 @@ class App extends Component {
             todos: [
                 {
                     id: '1',
-                    completed: false,
-                    title: 'Example Todo',
-                    notes: 'This is an example todo!'
+                    complete: false,
+                    title: 'This is a sample Todo',
+                    notes: ''
                 },
                 {
                     id: '2',
-                    completed: false,
-                    title: 'Example Todo 2',
-                    notes: 'This is an example todo too!'
+                    complete: false,
+                    title: 'Click here to EDIT this todo',
+                    notes: ''
                 },
                 {
                     id: '3',
-                    completed: false,
-                    title: 'Example Todo 3',
-                    notes: 'Three is an example todo!'
+                    complete: true,
+                    title: 'This todo is complete! It cannot be edited',
+                    notes: ''
+                },
+                {
+                    id: '4',
+                    complete: false,
+                    title: 'This icon shows that this todo has notes -->',
+                    notes: 'You found the notes! Good job. 👍'
                 }
             ]
         };
@@ -41,7 +47,7 @@ class App extends Component {
     toggleComplete(id) {
         let selectedTodo = this.state.todos.find((todo) => todo.id === id);
 
-        selectedTodo.completed = !selectedTodo.completed;
+        selectedTodo.complete = !selectedTodo.complete;
         this.setState({ todos: this.state.todos });
     }
 
