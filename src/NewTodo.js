@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NewTodo = () => (
+const NewTodo = (props) => (
     <div className='new-todo'>
         <div>
             <label htmlFor='title'>Title</label>
@@ -10,7 +10,8 @@ const NewTodo = () => (
             <label htmlFor='notes'>Notes</label>
             <textarea name='notes' placeholder='Enter notes' />
         </div>
-        <button>Create</button>
+        <button onClick={(e) => props.createTodo(e, props.history)}>Ok</button>
+        <button onClick={() => props.history.push('/')}>Cancel</button>
     </div>
 );
 
