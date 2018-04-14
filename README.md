@@ -1,5 +1,7 @@
 # React Todo List 🎯
 
+Todo List Example Solution for Tech Talent South Atlanta
+
 ## Made With
 
 - React 16.3
