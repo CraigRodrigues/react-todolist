@@ -1,12 +1,22 @@
 import React from 'react';
 
 const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
+    const handleClick = (event) => {
+        event.stopPropagation();
+
+        if (!todo.completed) {
+            return history.push(`/edit/${todo.id}`);
+        }
+
+        return false;
+    }
+
     return (
         <li>
             <input type="checkbox" onChange={() => toggleComplete(todo.id)} />
             <span
                 className={todo.completed ? 'completed' : ''}
-                onClick={() => history.push(`/edit/${todo.id}`)}
+                onClick={handleClick}
             >
                 {todo.title}
             </span>

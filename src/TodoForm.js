@@ -28,12 +28,12 @@ export default class TodoForm extends React.Component {
         return null;
     }
 
-    handleTitleChange(e) {
-        this.setState({ title: e.target.value });
+    handleTitleChange(event) {
+        this.setState({ title: event.target.value });
     }
 
-    handleNotesChange(e) {
-        this.setState({ notes: e.target.value });
+    handleNotesChange(event) {
+        this.setState({ notes: event.target.value });
     }
 
     handleAction() {
