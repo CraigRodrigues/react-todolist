@@ -16,7 +16,7 @@ const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
                 checked={todo.complete}
                 onChange={() => toggleComplete(todo.id)}
             />
-            <span className={todo.complete ? 'complete' : ''} onClick={handleClick}>
+            <span className={todo.complete ? 'complete' : ''} onDoubleClick={handleClick}>
                 {todo.title}
             </span>
             {todo.notes && (
