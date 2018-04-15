@@ -18,6 +18,7 @@ class App extends Component {
             projectId: 'react-todo-list-5b50c'
         });
 
+        this.db = firebase.firestore();
         this.state = {
             todos: [
                 {
@@ -60,10 +61,10 @@ class App extends Component {
     }
 
     componentDidMount() {
-        let db = firebase.firestore();
-        let myTodos = db.collection('todos').doc('craigs-todos');
+        let myTodos = this.db.collection('todos').doc('craigs-todos');
 
-        myTodos.get()
+        myTodos
+            .get()
             .then((doc) => {
                 if (doc.exists) {
                     console.log(doc.data());
@@ -71,7 +72,8 @@ class App extends Component {
                 } else {
                     console.error('No document found');
                 }
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 console.error('Error getting document', error);
             });
     }
@@ -80,14 +82,31 @@ class App extends Component {
         let selectedTodo = this.state.todos.find((todo) => todo.id === id);
 
         selectedTodo.complete = !selectedTodo.complete;
-        this.setState({ todos: this.state.todos });
+
+        let myTodos = this.db.collection('todos').doc('craigs-todos');
+        myTodos
+            .update({
+                todos: this.state.todos
+            })
+            .then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: this.state.todos });
+            });
     }
 
     createTodo(todo) {
         let todosCopy = clonedeep(this.state.todos);
-
         todosCopy.push(todo);
-        this.setState({ todos: todosCopy });
+
+        let myTodos = this.db.collection('todos').doc('craigs-todos');
+        myTodos
+            .update({
+                todos: todosCopy
+            })
+            .then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: todosCopy });
+            });
     }
 
     editTodo(todo) {
@@ -95,13 +114,30 @@ class App extends Component {
         let index = todosCopy.findIndex((x) => x.id === todo.id);
 
         todosCopy[index] = todo;
-        this.setState({ todos: todosCopy });
+
+        let myTodos = this.db.collection('todos').doc('craigs-todos');
+        myTodos
+            .update({
+                todos: todosCopy
+            })
+            .then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: todosCopy });
+            });
     }
 
     deleteTodo(id) {
         let newTodos = this.state.todos.filter((todo) => todo.id !== id);
 
-        this.setState({ todos: newTodos });
+        let myTodos = this.db.collection('todos').doc('craigs-todos');
+        myTodos
+            .update({
+                todos: newTodos
+            })
+            .then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: newTodos });
+            });
     }
 
     render() {
