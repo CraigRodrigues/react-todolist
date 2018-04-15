@@ -5,10 +5,18 @@ import clonedeep from 'lodash.clonedeep';
 import Logo from './Logo';
 import Todos from './Todos';
 import TodoForm from './TodoForm';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 class App extends Component {
     constructor() {
         super();
+
+        firebase.initializeApp({
+            apiKey: 'AIzaSyCGdhuTK5prBXGTfyIJ3wR8p-e2GDX3Aok',
+            authDomain: 'react-todo-list-5b50c.firebaseapp.com',
+            projectId: 'react-todo-list-5b50c'
+        });
 
         this.state = {
             todos: [
@@ -49,6 +57,23 @@ class App extends Component {
         this.createTodo = this.createTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
         this.editTodo = this.editTodo.bind(this);
+    }
+
+    componentDidMount() {
+        let db = firebase.firestore();
+        let myTodos = db.collection('todos').doc('craigs-todos');
+
+        myTodos.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    console.log(doc.data());
+                    this.setState(doc.data());
+                } else {
+                    console.error('No document found');
+                }
+            }).catch((error) => {
+                console.error('Error getting document', error);
+            });
     }
 
     toggleComplete(id) {
