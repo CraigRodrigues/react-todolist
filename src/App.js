@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import clonedeep from 'lodash.clonedeep';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import { auth, db } from './firebase';
 
 import Logo from './Logo';
 import Login from './Login';
@@ -13,13 +12,6 @@ class App extends Component {
     constructor() {
         super();
 
-        firebase.initializeApp({
-            apiKey: 'AIzaSyCGdhuTK5prBXGTfyIJ3wR8p-e2GDX3Aok',
-            authDomain: 'react-todo-list-5b50c.firebaseapp.com',
-            projectId: 'react-todo-list-5b50c'
-        });
-
-        this.db = firebase.firestore();
         this.state = {
             loading: true,
             loggedIn: false,
@@ -64,10 +56,20 @@ class App extends Component {
     }
 
     componentDidMount() {
-        let myTodos = this.db.collection('todos').doc('craigs-todos');
+        auth.onAuthStateChanged((user) => {
+                if (user) {
+                    this.setState({ loggedIn: true });
+                    this.fetchTodos();
+                } else {
+                    this.setState({ loggedIn: false });
+                }
+            });
+    }
 
-        myTodos
-            .get()
+    fetchTodos() {
+        let myTodos = db.collection('todos').doc('craigs-todos');
+
+        myTodos.get()
             .then((doc) => {
                 if (doc.exists) {
                     console.log(doc.data());
@@ -84,14 +86,10 @@ class App extends Component {
     toggleComplete(id) {
         this.setState({ loading: true }, () => {
             let selectedTodo = this.state.todos.find((todo) => todo.id === id);
-
+            let myTodos = db.collection('todos').doc('craigs-todos');
+            
             selectedTodo.complete = !selectedTodo.complete;
-
-            let myTodos = this.db.collection('todos').doc('craigs-todos');
-            myTodos
-                .update({
-                    todos: this.state.todos
-                })
+            myTodos.update({ todos: this.state.todos })
                 .then(() => {
                     console.log('Document successfully updated!');
                     this.setState({ todos: this.state.todos, loading: false });
@@ -102,13 +100,10 @@ class App extends Component {
     createTodo(todo) {
         this.setState({ loading: true }, () => {
             let todosCopy = clonedeep(this.state.todos);
+            let myTodos = db.collection('todos').doc('craigs-todos');
+            
             todosCopy.push(todo);
-
-            let myTodos = this.db.collection('todos').doc('craigs-todos');
-            myTodos
-                .update({
-                    todos: todosCopy
-                })
+            myTodos.update({ todos: todosCopy })
                 .then(() => {
                     console.log('Document successfully updated!');
                     this.setState({ todos: todosCopy, loading: false });
@@ -120,14 +115,10 @@ class App extends Component {
         this.setState({ loading: true }, () => {
             let todosCopy = clonedeep(this.state.todos);
             let index = todosCopy.findIndex((x) => x.id === todo.id);
+            let myTodos = db.collection('todos').doc('craigs-todos');
 
             todosCopy[index] = todo;
-
-            let myTodos = this.db.collection('todos').doc('craigs-todos');
-            myTodos
-                .update({
-                    todos: todosCopy
-                })
+            myTodos.update({ todos: todosCopy })
                 .then(() => {
                     console.log('Document successfully updated!');
                     this.setState({ todos: todosCopy, loading: false });
@@ -138,12 +129,9 @@ class App extends Component {
     deleteTodo(id) {
         this.setState({ loading: true }, () => {
             let newTodos = this.state.todos.filter((todo) => todo.id !== id);
-            let myTodos = this.db.collection('todos').doc('craigs-todos');
+            let myTodos = db.collection('todos').doc('craigs-todos');
 
-            myTodos
-                .update({
-                    todos: newTodos
-                })
+            myTodos.update({ todos: newTodos })
                 .then(() => {
                     console.log('Document successfully updated!');
                     this.setState({ todos: newTodos, loading: false });
@@ -157,24 +145,25 @@ class App extends Component {
                 <Logo />
 
                 <Route
-                    exact
                     path="/"
-                    component={Login}
+                    render={(props) => {
+                        if (this.state.loggedIn) {
+                            return (
+                                <Todos
+                                    {...props}
+                                    loading={this.state.loading}
+                                    todos={this.state.todos}
+                                    toggleComplete={this.toggleComplete}
+                                    deleteTodo={this.deleteTodo}
+                                />
+                            );
+                        } else {
+                            return <Login {...props} />
+                        }
+                    }}
                 />
                 <Route
-                    path="/todos"
-                    render={(props) => (
-                        <Todos
-                            {...props}
-                            loading={this.state.loading}
-                            todos={this.state.todos}
-                            toggleComplete={this.toggleComplete}
-                            deleteTodo={this.deleteTodo}
-                        />
-                    )}
-                />
-                <Route
-                    path="/todos/new"
+                    path="/new"
                     render={(props) => (
                         <TodoForm
                             {...props}
@@ -185,7 +174,7 @@ class App extends Component {
                     )}
                 />
                 <Route
-                    path="/todos/edit/:id"
+                    path="/edit/:id"
                     render={(props) => (
                         <TodoForm {...props} todos={this.state.todos} callback={this.editTodo} action="Edit Todo" />
                     )}
