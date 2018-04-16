@@ -145,6 +145,7 @@ class App extends Component {
                 <Logo />
 
                 <Route
+                    exact
                     path="/"
                     render={(props) => {
                         if (this.state.loggedIn) {
