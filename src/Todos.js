@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Todos = ({ loading, todos, toggleComplete, deleteTodo, history }) => {
     if (loading) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     } else {
         return (
             <React.Fragment>
@@ -27,6 +27,6 @@ const Todos = ({ loading, todos, toggleComplete, deleteTodo, history }) => {
             </React.Fragment>
         );
     }
-}
+};
 
 export default Todos;

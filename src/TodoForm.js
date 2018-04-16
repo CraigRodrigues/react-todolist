@@ -45,21 +45,11 @@ export default class TodoForm extends React.Component {
                 <h2>{action}</h2>
                 <div>
                     <label htmlFor="title">Title</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={title}
-                        onChange={this.handleChange}
-                    />
+                    <input type="text" name="title" value={title} onChange={this.handleChange} />
                 </div>
                 <div>
                     <label htmlFor="notes">Notes</label>
-                    <textarea
-                        name="notes"
-                        placeholder="Enter notes"
-                        value={notes}
-                        onChange={this.handleChange}
-                    />
+                    <textarea name="notes" placeholder="Enter notes" value={notes} onChange={this.handleChange} />
                 </div>
                 <button onClick={this.handleAction}>{action}</button>
                 <button onClick={() => history.push('/')}>Cancel</button>

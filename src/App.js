@@ -82,9 +82,9 @@ class App extends Component {
     toggleComplete(id) {
         this.setState({ loading: true }, () => {
             let selectedTodo = this.state.todos.find((todo) => todo.id === id);
-    
+
             selectedTodo.complete = !selectedTodo.complete;
-    
+
             let myTodos = this.db.collection('todos').doc('craigs-todos');
             myTodos
                 .update({
@@ -101,7 +101,7 @@ class App extends Component {
         this.setState({ loading: true }, () => {
             let todosCopy = clonedeep(this.state.todos);
             todosCopy.push(todo);
-    
+
             let myTodos = this.db.collection('todos').doc('craigs-todos');
             myTodos
                 .update({
@@ -118,9 +118,9 @@ class App extends Component {
         this.setState({ loading: true }, () => {
             let todosCopy = clonedeep(this.state.todos);
             let index = todosCopy.findIndex((x) => x.id === todo.id);
-    
+
             todosCopy[index] = todo;
-    
+
             let myTodos = this.db.collection('todos').doc('craigs-todos');
             myTodos
                 .update({
@@ -130,7 +130,7 @@ class App extends Component {
                     console.log('Document successfully updated!');
                     this.setState({ todos: todosCopy, loading: false });
                 });
-        })
+        });
     }
 
     deleteTodo(id) {
@@ -146,7 +146,7 @@ class App extends Component {
                     console.log('Document successfully updated!');
                     this.setState({ todos: newTodos, loading: false });
                 });
-        })
+        });
     }
 
     render() {
@@ -181,12 +181,7 @@ class App extends Component {
                 <Route
                     path="/edit/:id"
                     render={(props) => (
-                        <TodoForm
-                            {...props}
-                            todos={this.state.todos}
-                            callback={this.editTodo}
-                            action="Edit Todo"
-                        />
+                        <TodoForm {...props} todos={this.state.todos} callback={this.editTodo} action="Edit Todo" />
                     )}
                 />
             </div>
