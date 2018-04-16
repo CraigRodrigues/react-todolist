@@ -57,19 +57,20 @@ class App extends Component {
 
     componentDidMount() {
         auth.onAuthStateChanged((user) => {
-                if (user) {
-                    this.setState({ loggedIn: true });
-                    this.fetchTodos();
-                } else {
-                    this.setState({ loggedIn: false });
-                }
-            });
+            if (user) {
+                this.setState({ loggedIn: true });
+                this.fetchTodos();
+            } else {
+                this.setState({ loggedIn: false });
+            }
+        });
     }
 
     fetchTodos() {
         let myTodos = db.collection('todos').doc('craigs-todos');
 
-        myTodos.get()
+        myTodos
+            .get()
             .then((doc) => {
                 if (doc.exists) {
                     console.log(doc.data());
@@ -87,13 +88,12 @@ class App extends Component {
         this.setState({ loading: true }, () => {
             let selectedTodo = this.state.todos.find((todo) => todo.id === id);
             let myTodos = db.collection('todos').doc('craigs-todos');
-            
+
             selectedTodo.complete = !selectedTodo.complete;
-            myTodos.update({ todos: this.state.todos })
-                .then(() => {
-                    console.log('Document successfully updated!');
-                    this.setState({ todos: this.state.todos, loading: false });
-                });
+            myTodos.update({ todos: this.state.todos }).then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: this.state.todos, loading: false });
+            });
         });
     }
 
@@ -101,13 +101,12 @@ class App extends Component {
         this.setState({ loading: true }, () => {
             let todosCopy = clonedeep(this.state.todos);
             let myTodos = db.collection('todos').doc('craigs-todos');
-            
+
             todosCopy.push(todo);
-            myTodos.update({ todos: todosCopy })
-                .then(() => {
-                    console.log('Document successfully updated!');
-                    this.setState({ todos: todosCopy, loading: false });
-                });
+            myTodos.update({ todos: todosCopy }).then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: todosCopy, loading: false });
+            });
         });
     }
 
@@ -118,11 +117,10 @@ class App extends Component {
             let myTodos = db.collection('todos').doc('craigs-todos');
 
             todosCopy[index] = todo;
-            myTodos.update({ todos: todosCopy })
-                .then(() => {
-                    console.log('Document successfully updated!');
-                    this.setState({ todos: todosCopy, loading: false });
-                });
+            myTodos.update({ todos: todosCopy }).then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: todosCopy, loading: false });
+            });
         });
     }
 
@@ -131,55 +129,63 @@ class App extends Component {
             let newTodos = this.state.todos.filter((todo) => todo.id !== id);
             let myTodos = db.collection('todos').doc('craigs-todos');
 
-            myTodos.update({ todos: newTodos })
-                .then(() => {
-                    console.log('Document successfully updated!');
-                    this.setState({ todos: newTodos, loading: false });
-                });
+            myTodos.update({ todos: newTodos }).then(() => {
+                console.log('Document successfully updated!');
+                this.setState({ todos: newTodos, loading: false });
+            });
         });
+    }
+
+    checkAuthentication() {
+        if (this.state.loggedIn) {
+            return (
+                <React.Fragment>
+                    <Route
+                        exact
+                        path="/"
+                        render={(props) => (
+                            <Todos
+                                {...props}
+                                todos={this.state.todos}
+                                toggleComplete={this.toggleComplete}
+                                deleteTodo={this.deleteTodo}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/new"
+                        render={(props) => (
+                            <TodoForm
+                                {...props}
+                                todos={this.state.todos}
+                                callback={this.createTodo}
+                                action="Create New Todo"
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/edit/:id"
+                        render={(props) => (
+                            <TodoForm
+                                {...props}
+                                todos={this.state.todos}
+                                callback={this.editTodo}
+                                action="Edit Todo"
+                            />
+                        )}
+                    />
+                </React.Fragment>
+            );
+        } else {
+            return <Login />;
+        }
     }
 
     render() {
         return (
             <div id="App">
                 <Logo />
-
-                <Route
-                    exact
-                    path="/"
-                    render={(props) => {
-                        if (this.state.loggedIn) {
-                            return (
-                                <Todos
-                                    {...props}
-                                    loading={this.state.loading}
-                                    todos={this.state.todos}
-                                    toggleComplete={this.toggleComplete}
-                                    deleteTodo={this.deleteTodo}
-                                />
-                            );
-                        } else {
-                            return <Login {...props} />
-                        }
-                    }}
-                />
-                <Route
-                    path="/new"
-                    render={(props) => (
-                        <TodoForm
-                            {...props}
-                            todos={this.state.todos}
-                            callback={this.createTodo}
-                            action="Create New Todo"
-                        />
-                    )}
-                />
-                <Route
-                    path="/edit/:id"
-                    render={(props) => (
-                        <TodoForm {...props} todos={this.state.todos} callback={this.editTodo} action="Edit Todo" />
-                    )}
-                />
+                {this.state.loading ? <div>Loading...</div> : this.checkAuthentication()}
             </div>
         );
     }
