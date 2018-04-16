@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import clonedeep from 'lodash.clonedeep';
-
-import Logo from './Logo';
-import Todos from './Todos';
-import TodoForm from './TodoForm';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+
+import Logo from './Logo';
+import Login from './Login';
+import Todos from './Todos';
+import TodoForm from './TodoForm';
 
 class App extends Component {
     constructor() {
@@ -21,6 +22,7 @@ class App extends Component {
         this.db = firebase.firestore();
         this.state = {
             loading: true,
+            loggedIn: false,
             todos: [
                 {
                     id: '1',
@@ -157,6 +159,10 @@ class App extends Component {
                 <Route
                     exact
                     path="/"
+                    component={Login}
+                />
+                <Route
+                    path="/todos"
                     render={(props) => (
                         <Todos
                             {...props}
@@ -168,7 +174,7 @@ class App extends Component {
                     )}
                 />
                 <Route
-                    path="/new"
+                    path="/todos/new"
                     render={(props) => (
                         <TodoForm
                             {...props}
@@ -179,7 +185,7 @@ class App extends Component {
                     )}
                 />
                 <Route
-                    path="/edit/:id"
+                    path="/todos/edit/:id"
                     render={(props) => (
                         <TodoForm {...props} todos={this.state.todos} callback={this.editTodo} action="Edit Todo" />
                     )}
