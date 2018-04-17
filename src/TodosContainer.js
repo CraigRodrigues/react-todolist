@@ -3,47 +3,45 @@ import { Route } from 'react-router-dom';
 import clonedeep from 'lodash.clonedeep';
 import { db } from './firebase';
 
-import Todos from './Todos';
+import TodosList from './TodosList';
 import TodoForm from './TodoForm';
+
+// [{
+//     id: '1',
+//     complete: false,
+//     title: 'This is a sample Todo',
+//     notes: ''
+// },
+// {
+//     id: '2',
+//     complete: false,
+//     title: 'Click here to EDIT this todo',
+//     notes: ''
+// },
+// {
+//     id: '3',
+//     complete: true,
+//     title: 'This todo is complete! It cannot be edited',
+//     notes: ''
+// },
+// {
+//     id: '4',
+//     complete: false,
+//     title: 'Click any ❌ emoji to delete a todo',
+//     notes: ''
+// },
+// {
+//     id: '5',
+//     complete: false,
+//     title: 'This icon shows that this todo has notes -->',
+//     notes: 'You found the notes! Good job. 👍'
+// }]
 
 export default class TodosContainer extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            todos: [
-                {
-                    id: '1',
-                    complete: false,
-                    title: 'This is a sample Todo',
-                    notes: ''
-                },
-                {
-                    id: '2',
-                    complete: false,
-                    title: 'Click here to EDIT this todo',
-                    notes: ''
-                },
-                {
-                    id: '3',
-                    complete: true,
-                    title: 'This todo is complete! It cannot be edited',
-                    notes: ''
-                },
-                {
-                    id: '4',
-                    complete: false,
-                    title: 'Click any ❌ emoji to delete a todo',
-                    notes: ''
-                },
-                {
-                    id: '5',
-                    complete: false,
-                    title: 'This icon shows that this todo has notes -->',
-                    notes: 'You found the notes! Good job. 👍'
-                }
-            ]
-        };
+        this.state = { todos: null };
 
         this.toggleComplete = this.toggleComplete.bind(this);
         this.createTodo = this.createTodo.bind(this);
@@ -63,7 +61,7 @@ export default class TodosContainer extends React.Component {
             .then((doc) => {
                 if (doc.exists) {
                     console.log(doc.data());
-                    this.setState({ todos: doc.data().todos, loading: false });
+                    this.setState({ todos: doc.data().todos });
                 } else {
                     console.error('No document found');
                 }
@@ -81,7 +79,7 @@ export default class TodosContainer extends React.Component {
             selectedTodo.complete = !selectedTodo.complete;
             myTodos.update({ todos: this.state.todos }).then(() => {
                 console.log('Document successfully updated!');
-                this.setState({ todos: this.state.todos, loading: false });
+                this.setState({ todos: this.state.todos });
             });
         });
     }
@@ -94,7 +92,7 @@ export default class TodosContainer extends React.Component {
             todosCopy.push(todo);
             myTodos.update({ todos: todosCopy }).then(() => {
                 console.log('Document successfully updated!');
-                this.setState({ todos: todosCopy, loading: false });
+                this.setState({ todos: todosCopy });
             });
         });
     }
@@ -108,7 +106,7 @@ export default class TodosContainer extends React.Component {
             todosCopy[index] = todo;
             myTodos.update({ todos: todosCopy }).then(() => {
                 console.log('Document successfully updated!');
-                this.setState({ todos: todosCopy, loading: false });
+                this.setState({ todos: todosCopy });
             });
         });
     }
@@ -120,7 +118,7 @@ export default class TodosContainer extends React.Component {
 
             myTodos.update({ todos: newTodos }).then(() => {
                 console.log('Document successfully updated!');
-                this.setState({ todos: newTodos, loading: false });
+                this.setState({ todos: newTodos });
             });
         });
     }
@@ -132,7 +130,7 @@ export default class TodosContainer extends React.Component {
                     exact
                     path="/"
                     render={(props) => (
-                        <Todos
+                        <TodosList
                             {...props}
                             todos={this.state.todos}
                             toggleComplete={this.toggleComplete}
