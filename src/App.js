@@ -25,28 +25,16 @@ export default class App extends Component {
     }
 
     render() {
-        if (this.state.loading) {
-            return (
-                <div id="App">
-                    <Logo />
-                    <Loading />
-                </div>
-            );
-        }
-
-        if (this.state.loggedIn) {
-            return (
-                <div id="App">
-                    <Logo />
-                    <TodosContainer />
-                </div>
-            );
-        }
-
         return (
             <div id="App">
                 <Logo />
-                <Login />
+                {this.state.loading ? (
+                    <Loading />
+                ) : this.state.loggedIn ? (
+                    <TodosContainer />
+                ) : (
+                    <Login />
+                )}
             </div>
         );
     }

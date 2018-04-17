@@ -60,7 +60,6 @@ export default class TodosContainer extends React.Component {
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    console.log(doc.data());
                     this.setState({ todos: doc.data().todos });
                 } else {
                     console.error('No document found');
