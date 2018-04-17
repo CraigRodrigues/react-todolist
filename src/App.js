@@ -4,6 +4,7 @@ import { auth } from './firebase';
 import Logo from './Logo';
 import Loading from './Loading';
 import Login from './Login';
+import Logout from './Logout';
 import TodosContainer from './TodosContainer';
 
 export default class App extends Component {
@@ -28,6 +29,7 @@ export default class App extends Component {
         return (
             <div id="App">
                 <Logo />
+                {this.state.loggedIn && <Logout />}
                 {this.state.loading ? (
                     <Loading />
                 ) : this.state.loggedIn ? (
