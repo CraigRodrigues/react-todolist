@@ -1,10 +1,11 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import clonedeep from 'lodash.clonedeep';
 import { db } from './firebase';
 
 import TodosList from './TodosList';
 import TodoForm from './TodoForm';
+import NotFound from './NotFound';
 
 // [{
 //     id: '1',
@@ -125,6 +126,7 @@ export default class TodosContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Switch>
                 <Route
                     exact
                     path="/"
@@ -159,6 +161,8 @@ export default class TodosContainer extends React.Component {
                         />
                     )}
                 />
+                <Route component={NotFound} />
+                </Switch>
             </React.Fragment>
         );
     }
