@@ -25,18 +25,28 @@ export default class App extends Component {
         });
     }
 
+    renderContainer() {
+        if (this.state.loading) {
+            return <Loading />;
+        }
+
+        if (this.state.loggedIn) {
+            return (
+                <React.Fragment>
+                    <Logout />
+                    <TodosContainer />
+                </React.Fragment>
+            );
+        }
+
+        return <Login />;
+    }
+
     render() {
         return (
             <div id="App">
                 <Logo />
-                {this.state.loggedIn && <Logout />}
-                {this.state.loading ? (
-                    <Loading />
-                ) : this.state.loggedIn ? (
-                    <TodosContainer />
-                ) : (
-                    <Login />
-                )}
+                {this.renderContainer()}
             </div>
         );
     }

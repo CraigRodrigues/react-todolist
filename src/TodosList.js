@@ -25,7 +25,7 @@ const TodosList = ({ loading, todos, toggleComplete, deleteTodo, history }) => {
             </React.Fragment>
         );
     } else {
-        return <div>Loading...</div>;
+        return <div>Fetching todos...</div>;
     }
 };
 

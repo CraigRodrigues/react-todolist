@@ -78,45 +78,43 @@ export default class TodosContainer extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                <Switch>
-                    <Route
-                        exact
-                        path="/"
-                        render={(props) => (
-                            <TodosList
-                                {...props}
-                                todos={this.state.todos}
-                                toggleComplete={this.toggleComplete}
-                                deleteTodo={this.deleteTodo}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/new"
-                        render={(props) => (
-                            <TodoForm
-                                {...props}
-                                todos={this.state.todos}
-                                callback={this.createTodo}
-                                action="Create New Todo"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/edit/:id"
-                        render={(props) => (
-                            <TodoForm
-                                {...props}
-                                todos={this.state.todos}
-                                callback={this.editTodo}
-                                action="Edit Todo"
-                            />
-                        )}
-                    />
-                    <Route component={NotFound} />
-                </Switch>
-            </React.Fragment>
+            <Switch>
+                <Route
+                    exact
+                    path="/"
+                    render={(props) => (
+                        <TodosList
+                            {...props}
+                            todos={this.state.todos}
+                            toggleComplete={this.toggleComplete}
+                            deleteTodo={this.deleteTodo}
+                        />
+                    )}
+                />
+                <Route
+                    path="/new"
+                    render={(props) => (
+                        <TodoForm
+                            {...props}
+                            todos={this.state.todos}
+                            callback={this.createTodo}
+                            action="Create New Todo"
+                        />
+                    )}
+                />
+                <Route
+                    path="/edit/:id"
+                    render={(props) => (
+                        <TodoForm
+                            {...props}
+                            todos={this.state.todos}
+                            callback={this.editTodo}
+                            action="Edit Todo"
+                        />
+                    )}
+                />
+                <Route component={NotFound} />
+            </Switch>
         );
     }
 }

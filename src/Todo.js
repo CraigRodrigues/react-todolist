@@ -5,13 +5,15 @@ const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
         if (!todo.complete) {
             return history.push(`/edit/${todo.id}`);
         }
-
-        return false;
     };
 
     return (
         <li>
-            <input type="checkbox" checked={todo.complete} onChange={() => toggleComplete(todo.id)} />
+            <input
+                type="checkbox"
+                checked={todo.complete}
+                onChange={() => toggleComplete(todo.id)}
+            />
             <span className={todo.complete ? 'complete' : ''} onDoubleClick={handleClick}>
                 {todo.title}
             </span>
