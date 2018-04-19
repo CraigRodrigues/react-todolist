@@ -20,6 +20,7 @@ export default class Login extends React.Component {
     }
 
     login() {
+        // clear the error then sign in, the listener will react to it in App
         this.setState({ error: null }, () => {
             auth
                 .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -27,6 +28,7 @@ export default class Login extends React.Component {
         });
     }
 
+    // controlled component
     render() {
         return (
             <div id="login">

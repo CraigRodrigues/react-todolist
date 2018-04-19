@@ -18,6 +18,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        // listener for logging in and out
         auth.onAuthStateChanged((user) => {
             user
                 ? this.setState({ loggedIn: true, loading: false })
@@ -26,6 +27,7 @@ export default class App extends Component {
     }
 
     renderContainer() {
+        // decides which main body to render
         if (this.state.loading) {
             return <Loading />;
         }

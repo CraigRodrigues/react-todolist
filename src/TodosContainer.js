@@ -12,6 +12,8 @@ export default class TodosContainer extends React.Component {
         super(props);
 
         this.state = { todos: null };
+
+        // hold reference to document of todos
         this.todosRef = db.collection('todos').doc('craigs-todos');
 
         this.toggleComplete = this.toggleComplete.bind(this);
@@ -22,6 +24,8 @@ export default class TodosContainer extends React.Component {
 
     componentDidMount() {
         this.fetchTodos();
+
+        // setup listener to react to any get() or update() to the todos
         this.todosRef.onSnapshot(
             (doc) => {
                 if (doc.exists) {
@@ -40,6 +44,7 @@ export default class TodosContainer extends React.Component {
         this.todosRef.get().catch((error) => console.error('Error getting document', error));
     }
 
+    // general purpose function to update the todos doc in firestore
     updateTodos(todos) {
         this.todosRef
             .update({ todos })
