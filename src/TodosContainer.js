@@ -23,8 +23,6 @@ export default class TodosContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchTodos();
-
         // setup listener to react to any get() or update() to the todos
         this.todosRef.onSnapshot(
             (doc) => {
@@ -38,10 +36,6 @@ export default class TodosContainer extends React.Component {
                 console.error('Snapshot Error', error);
             }
         );
-    }
-
-    fetchTodos() {
-        this.todosRef.get().catch((error) => console.error('Error getting document', error));
     }
 
     // general purpose function to update the todos doc in firestore

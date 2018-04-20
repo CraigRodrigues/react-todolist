@@ -17,7 +17,7 @@ export default class TodoForm extends React.Component {
         this.handleAction = this.handleAction.bind(this);
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps) {
         let id = nextProps.match.params.id;
 
         if (id) {
@@ -49,7 +49,12 @@ export default class TodoForm extends React.Component {
                 </div>
                 <div>
                     <label htmlFor="notes">Notes</label>
-                    <textarea name="notes" placeholder="Enter notes" value={notes} onChange={this.handleChange} />
+                    <textarea
+                        name="notes"
+                        placeholder="Enter notes"
+                        value={notes}
+                        onChange={this.handleChange}
+                    />
                 </div>
                 <button onClick={this.handleAction}>{action}</button>
                 <button onClick={() => history.push('/')}>Cancel</button>

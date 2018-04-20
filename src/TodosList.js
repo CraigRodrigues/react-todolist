@@ -2,7 +2,7 @@ import React from 'react';
 import Todo from './Todo';
 import { Link } from 'react-router-dom';
 
-const TodosList = ({ loading, todos, toggleComplete, deleteTodo, history }) => {
+const TodosList = ({ todos, toggleComplete, deleteTodo, history }) => {
     if (todos) {
         return (
             <React.Fragment>

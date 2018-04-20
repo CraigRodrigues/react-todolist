@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Todo = ({ toggleComplete, deleteTodo, todo, history }) => {
-    const handleClick = (event) => {
+    const handleClick = () => {
         if (!todo.complete) {
             // history passed down as props to this component
             return history.push(`/edit/${todo.id}`);
